@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/immutability */
 import './App.css'
 import { Banner } from './componentes/Banner'
 import { CardEvento } from './componentes/CardEvento'
@@ -41,18 +42,26 @@ function App() {
 
     ]
 
+    function adicionandoEvento (evento) {
+        eventos.push(evento)
+        console.log("eventos => ", eventos)
+    }
+
     return (
         <main>
             <header>
                 <img src="/logo.png" alt="" />
             </header>
             <Banner />
-            <FormularioDeEvento  temas={temas}/>
+            <FormularioDeEvento  temas={temas} aoSubmeter={ adicionandoEvento }/>
             {temas.map(function (item) {
                 return (
                     <section key={item.id}>
                         <Tema tema={item} />
-                        <CardEvento evento={eventos[0]}/>
+                        {eventos.map(function (item, index){
+                            
+                         return   <CardEvento evento={item} key={index}/>
+                        })}
                     </section>
                 )
             })}

@@ -6,9 +6,22 @@ import { Label } from '../Label'
 import { Botao } from '../Botao'
 import { ListaSuspensa } from '../ListaSuspensa'
 
-export function FormularioDeEvento({ temas }) {
+export function FormularioDeEvento({ temas, aoSubmeter }) {
+    function aoFormSubmetido(formData) {
+        console.log('Criando um evento de envio do formulário', formData)
+        const eventos = {
+            capa: formData.get('capa'),
+            tema: temas.find(function (item){
+                return item.id == formData.get('tema')
+            }),
+            data: new Date(formData.get('dataEvento')),
+            titulo: formData.get('nomeEvento'),
+        }
+       aoSubmeter(eventos)
+    }
+
     return (
-        <form className="form-evento">
+        <form className="form-evento" action={aoFormSubmetido}>
             <TituloFormulario>Preencha para criar um evento:</TituloFormulario>
             <div className="campos">
                 <CampoDeFormulario>
